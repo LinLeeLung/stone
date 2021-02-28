@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>晶華石</title>
+    <style>
+        .title {
+            width: 1000px;
+            /* height:200px; */
+            text-align: center;
+            background-color: antiquewhite;
+            margin: auto;
+            padding: 5px;
+            font-size: 24px;
+
+        }
+
+        .pic {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+
+</head>
+
+<body onload="getData()">
+    <div class="title">晶華石色塊</div>
+    <div>
+
+    </div>
+</body>
+
+<script>
+
+    var garray = []//色卡陣列
+    var table = []//色卡原始資料
+    var stone="晶華石"
+    function getData() {
+        var wwwurl = "https://docs.google.com/spreadsheets/d/10Gkhuq2iwlpQfw0e-uvP_9UuE1efee_5v7iHX4srW8s/export?format=csv&gid=494306116"
+        var req = new XMLHttpRequest()
+        req.open("get", wwwurl)
+        req.onload = function () {//load 事件,偵測連線的狀態結束
+            //連線完成
+            // var content = document.getElementById("content");
+            //content.innerText=this.responseText;
+            table = this.responseText.split("\r\n")
+            table.forEach((item, index) => {
+                var row = []
+                for (i = 0; i < item.split(",").length; i++) {
+                    if (item.split(",")[0] == stone && item.split(",")[4] != "") {
+                        row.push(item.split(",")[i])
+                    }
+                }
+                if (row[0] == stone && item.split(",")[4] != "") {
+                    garray.push(row)
+                }
+            })
+            garray.forEach((item, index) => {
+                document.write('<div style="display: inline-flex "> <div>')
+                document.write('<div style="text-align:center ;margin:5px; width :300px; height:30px; font-size:24px;color:red;position: relative;  top: 0px;  left: 0px; background: #ccc; " >' + item[1] + '↓ </div>')
+                document.write('<div style="width:300px ;height:300px ;margin:5px; border:5px " ><img style="width:100% ; height:100% " src=' + item[4] + '></div>')
+                document.write('</div></div>')
+            })
+        }
+
+
+        req.send();
+    }
+
+
+</script>
+
+</html>
